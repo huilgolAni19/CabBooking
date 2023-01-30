@@ -11,7 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/Booking")
@@ -49,8 +52,14 @@ public class BookingController {
 
         List<CabBooking> bookings = repository.findAll();
         for(CabBooking b : bookings) {
-            Cab c = cabsRepository.findById(b.getCabId()).get();
-            User u = userRepository.findById(b.getUserId()).get();
+
+            ArrayList<Cab> cabs = new  ArrayList();
+            cabs.addAll(cabsRepository.findAll());
+            Cab c = cabs.stream().filter(cab -> cab.getCabId() == b.getCabId()).collect(Collectors.toList()).get(0);
+
+            ArrayList<User> users = new ArrayList();
+            users.addAll(userRepository.findAll());
+            User u = users.stream().filter(user -> user.getUserId() == b.getUserId()).collect(Collectors.toList()).get(0);
 
             CabBookingDetails cbd = new CabBookingDetails();
             cbd.setBookingId(b.getBookingId());
