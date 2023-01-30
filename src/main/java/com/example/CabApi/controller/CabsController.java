@@ -86,10 +86,11 @@ public class CabsController {
             cb.setRegisteredDate(cab.getRegisteredDate());
             cb.setVehicleBrandName(cab.getVehicleBrandName());
             cb.setVehicleModelName(cab.getVehicleModelName());
-            cb.setVehicleBrandName(cab.getVehicleBrandName());
+            cb.setVehicleNumber(cab.getVehicleNumber());
+
             return repository.save(cb);
         }).orElseGet(() -> {
-            cab.setDriverId(id);
+            cab.setCabId(id);
             return  repository.save(cab);
         });
 
